@@ -27,7 +27,7 @@ public class Restaurant {
     private List<String> schools;
     private double latitude;
     private long price;
-    private List<Review> review;
+    private List<Review> reviews;
 
     public Restaurant(JSONObject jsonObject){
         open = (Boolean) jsonObject.get("open");
@@ -47,11 +47,11 @@ public class Restaurant {
         schools = jsonArrayToList((JSONArray) jsonObject.get("schools"));
         latitude = (double) jsonObject.get("latitude");
         price = (long) jsonObject.get("price");
-        review = new ArrayList<>();
+        reviews = new ArrayList<>();
     }
 
     public void setReview(Review review){
-        this.review.add(review);
+        this.reviews.add(review);
     }
 
     private static ArrayList<String> jsonArrayToList(JSONArray jsonArray){
@@ -67,8 +67,8 @@ public class Restaurant {
     }
 
 
-    public List<Review> getReview() {
-        return review;
+    public List<Review> getReviews() {
+        return reviews;
     }
 
     public boolean isOpen() {

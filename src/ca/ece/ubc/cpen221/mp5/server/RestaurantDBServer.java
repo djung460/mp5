@@ -1,4 +1,4 @@
-package ca.ece.ubc.cpen221.mp5;
+package ca.ece.ubc.cpen221.mp5.server;
 
 // TODO: Implement a server that will instantiate a database, 
 // process queries concurrently, etc.

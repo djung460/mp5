@@ -107,6 +107,35 @@ public class QueryFactory {
             }
         }
 
+        @Override
+        public void exitRandomReview(QueryParser.RandomReviewContext ctx) {
+            OtherQueries randomReview = new OtherQueries(ctx.getRuleIndex(),ctx.STRING().getText());
+            stack.push(randomReview);
+        }
+
+        @Override
+        public void exitGetRestaurant(QueryParser.GetRestaurantContext ctx) {
+            OtherQueries getRestaurant = new OtherQueries(ctx.getRuleIndex(),ctx.STRING().getText());
+            stack.push(getRestaurant);
+        }
+
+        @Override
+        public void exitAddRestaurant(QueryParser.AddRestaurantContext ctx) {
+            OtherQueries addRestaurant = new OtherQueries(ctx.getRuleIndex(),ctx.STRING().getText());
+            stack.push(addRestaurant);
+        }
+
+        @Override
+        public void exitAddUser(QueryParser.AddUserContext ctx) {
+            OtherQueries addUser = new OtherQueries(ctx.getRuleIndex(),ctx.STRING().getText());
+            stack.push(addUser);
+        }
+
+        @Override
+        public void exitAddReview(QueryParser.AddReviewContext ctx) {
+            OtherQueries addReview = new OtherQueries(ctx.getRuleIndex(),ctx.STRING().getText());
+            stack.push(addReview);
+        }
 
         @Override
         public void exitQuery(QueryParser.QueryContext ctx) {
