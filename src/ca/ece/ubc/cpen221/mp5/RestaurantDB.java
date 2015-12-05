@@ -1,5 +1,7 @@
 package ca.ece.ubc.cpen221.mp5;
 
+import ca.ece.ubc.cpen221.mp5.query.Query;
+import ca.ece.ubc.cpen221.mp5.query.QueryFactory;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -19,8 +21,13 @@ public class RestaurantDB {
 
 	public static void main(String[] args) {
 		RestaurantDB resDB = new RestaurantDB("restaurants.json","reviews.json","users.json");
+		printRestaurants(resDB.query("(price(4..5) && in(\"Downtown Berkeley\")) && name(\"Top Dog\")"));
         System.out.println("done!");
-		resDB.query("");
+	}
+
+	private static void printRestaurants(Set<Restaurant> restaurantList){
+		for(Restaurant r : restaurantList)
+			System.out.println(r.getName());
 	}
 
 	/**
@@ -159,7 +166,7 @@ public class RestaurantDB {
 	 * @return an unmodifiable list of all restaurants stored in the database
      */
 
-	public List<Restaurant> getRestaurants(){
+	public  List<Restaurant> getRestaurants(){
 		List<Restaurant> restaurants  = new ArrayList<>();
 
 		for(String restaurant_id : id_restaurants.keySet()){
@@ -174,11 +181,21 @@ public class RestaurantDB {
 	 * @param queryString the query from which a set of resturants will be returned
 	 * @return a set of resturants matching the query
 	 */
-	public void query(String queryString) {
+	public Set<Restaurant> query(String queryString) {
 		// TODO: Implement this method
-		// Write specs, etc
 
+		Set<Restaurant> matchedRestaurants = new HashSet<>();
 
+		Query q = QueryFactory.parse(queryString);
+
+		for(Restaurant r : getRestaurants()) {
+			Boolean queryEvaluated;
+			queryEvaluated = q.evaluate(r);
+			if (queryEvaluated)
+				matchedRestaurants.add(r);
+		}
+
+		return matchedRestaurants;
 	}
 
 }

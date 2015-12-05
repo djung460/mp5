@@ -20,15 +20,23 @@ grammar Query;
 }
 
 /* Entry point of parser */
+
+RANDOMREVIEW : 'randomReview' ;
+GETRESTAURANT : 'getRestaurant' ;
+ADDRESTAURANT : 'addRestaurant' ;
+ADDUSER : 'addUser' ;
+ADDREVIEW : 'addReview' ;
+
 query : orExpr
-    | 'randomReview('STRING')'
-    | 'getRestaurant('STRING')'
-    | 'addRestaurant('STRING')'
-    | 'addUser('STRING')'
-    | 'addReview('STRING')';
+    | RANDOMREVIEW LPAREN STRING RPAREN
+    | GETRESTAURANT LPAREN STRING RPAREN
+    | ADDRESTAURANT LPAREN STRING RPAREN
+    | ADDUSER LPAREN STRING RPAREN
+    | ADDREVIEW LPAREN STRING RPAREN
+    | EOF;
 
 /* Have lowest precedence */
-orExpr : andExpr(OR andExpr)*;
+orExpr : andExpr (OR andExpr)*;
 
 /* Have higher precedence */
 andExpr : atom ( AND atom)*;
@@ -36,16 +44,22 @@ andExpr : atom ( AND atom)*;
 atom : in|category|rating|price|name|LPAREN orExpr RPAREN;
 
 
-in : 'in' LPAREN STRING RPAREN;
-category : 'category' LPAREN STRING RPAREN;
-name : 'name' LPAREN STRING RPAREN;
-rating : 'rating' LPAREN RANGE RPAREN;
-price : 'price' LPAREN RANGE RPAREN;
+in : IN LPAREN STRING RPAREN;
+category : CATEGORY LPAREN STRING RPAREN;
+name : NAME LPAREN STRING RPAREN;
+rating : RATING LPAREN RANGE RPAREN;
+price : PRICE LPAREN RANGE RPAREN;
+
 
 RANGE : [1-5]'..'[1-5];
 LPAREN : '(';
 RPAREN : ')';
 OR : '||';
 AND : '&&';
-STRING : '"' ([a-zA-Z0-9]|' ')* '"';
+STRING: '"' ([a-zA-Z0-9]|' ')+ '"';
+IN : 'in';
+CATEGORY : 'category';
+NAME : 'name';
+RATING : 'rating';
+PRICE : 'price';
 WS : [ \t\r\n]+ -> skip ;
