@@ -7,9 +7,9 @@ import org.json.simple.JSONObject;
  * Date: 2015-12-01.
  */
 public class Vote {
-    long cool;
-    long useful;
-    long funny;
+    private long cool;
+    private long useful;
+    private long funny;
 
     public long getCool() {
         return cool;

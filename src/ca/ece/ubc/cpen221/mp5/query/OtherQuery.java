@@ -6,11 +6,11 @@ import ca.ece.ubc.cpen221.mp5.Restaurant;
  * Author: Dooj
  * Date: 2015-12-04.
  */
-public class OtherQueries implements Query {
+public class OtherQuery implements Query {
     private int queryType;
     private String queryInfo;
 
-    public OtherQueries(int queryType, String queryInfo){
+    public OtherQuery(int queryType, String queryInfo){
         this.queryType = queryType;
         this.queryInfo = queryInfo.replace("\"","");
     }

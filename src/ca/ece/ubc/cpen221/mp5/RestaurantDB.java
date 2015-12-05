@@ -1,7 +1,5 @@
 package ca.ece.ubc.cpen221.mp5;
 
-import ca.ece.ubc.cpen221.mp5.antlr.QueryParser;
-import ca.ece.ubc.cpen221.mp5.query.OtherQueries;
 import ca.ece.ubc.cpen221.mp5.query.Query;
 import ca.ece.ubc.cpen221.mp5.query.QueryFactory;
 import org.json.simple.JSONObject;
@@ -21,12 +19,6 @@ public class RestaurantDB {
     Map<String, List<String>> name_id = new HashMap<>();
     Map<String, Restaurant> id_restaurants = new HashMap<>();
     Map<String, User> id_users = new HashMap<>();
-
-    public static void main(String[] args) {
-        RestaurantDB resDB = new RestaurantDB("restaurants.json", "reviews.json", "users.json");
-        printRestaurants(resDB.query("name(\"Top Dog\")"));
-        System.out.println("done!");
-    }
 
     private static void printRestaurants(Set<Restaurant> restaurantList) {
         for (Restaurant r : restaurantList)
@@ -176,54 +168,25 @@ public class RestaurantDB {
     }
 
     /**
+     * Searches the restaurants in the database that match the query.
+     *
      * @param queryString the query from which a set of resturants will be returned
      * @return a set of resturants matching the query
      */
     public Set<Restaurant> query(String queryString) {
-        // TODO: Implement this method
 
         Set<Restaurant> matchedRestaurants = new HashSet<>();
 
         Query q = QueryFactory.parse(queryString);
 
-        if(q instanceof OtherQueries){
-            otherQueryHandler((OtherQueries) q);
-        } else {
-            for (Restaurant r : getRestaurants()) {
+        for (Restaurant r : getRestaurants()) {
                 Boolean queryEvaluated;
                 queryEvaluated = q.evaluate(r);
                 if (queryEvaluated)
                     matchedRestaurants.add(r);
             }
-        }
 
         return matchedRestaurants;
-    }
-
-    /**
-     * Handles queries including addRestaurant, addReview, addUser, getRestaurant, randomReview
-     *
-     * @param otherQueries takes in the above queries
-     */
-
-    private void otherQueryHandler(OtherQueries otherQueries) {
-        switch (otherQueries.getQueryType()) {
-            case QueryParser.RULE_addRestaurant:
-                this.addRestaurant(otherQueries.getQueryInfo());
-                break;
-            case QueryParser.RULE_addReview:
-                this.addReview(otherQueries.getQueryInfo());
-                break;
-            case QueryParser.RULE_addUser:
-                this.addUser(otherQueries.getQueryInfo());
-                break;
-            case QueryParser.RULE_getRestaurant:
-                this.getRestaurant(otherQueries.getQueryInfo());
-                break;
-            case QueryParser.RULE_randomReview:
-                this.randomReview(otherQueries.getQueryInfo());
-                break;
-        }
     }
 
     /**
@@ -308,9 +271,28 @@ public class RestaurantDB {
      */
 
     private String getRestaurant(String restaurant_id) {
-        String jsonRestaurant = "";
+        Restaurant restaurant = id_restaurants.get(restaurant_id);
 
-        return jsonRestaurant;
+        String jsonString =
+                "{\"open\": " + restaurant.isOpen() +
+                        ", \"url\": " + restaurant.getUrl() +
+                        ", \"longitude\": " + restaurant.getLongitude() +
+                        ", \"neighborhoods\": " + restaurant.getNeighborhoods() +
+                        ", \"business_id\": " + restaurant.getBusiness_id() +
+                        ", \"name\": " + restaurant.getName() +
+                        ", \"categories\": " + restaurant.getCategories() +
+                        ", \"state\": " + restaurant.getState() +
+                        ", \"type\": " + restaurant.getType() +
+                        ", \"stars\": " + restaurant.getStars() +
+                        ", \"city\": " + restaurant.getCity() +
+                        ", \"full_address\": " + restaurant.getFull_address() +
+                        ", \"review_count\": " + restaurant.getReview_count() +
+                        ", \"photo_url\": " + restaurant.getPhoto_url() +
+                        ", \"schools\": " + restaurant.getSchools() +
+                        ", \"latitude\": " + restaurant.getLatitude() +
+                        ", \"price\": " + restaurant.getPrice() + "}";
+
+        return jsonString;
     }
 
     /**
@@ -331,7 +313,19 @@ public class RestaurantDB {
         int randIndex2 = random_id.nextInt(reviews.size());
         Review randReview = reviews.get(randIndex2);
 
-        return randReview;
-    }
+        String jsonString =
+                "{\"type\": " + randReview.getType() +
+                        ", \"business_id\": " + randReview.getBusiness_id() +
+                        ", \"votes\": " +
+                        "{\"cool\": " + randReview.getVote().getCool() +
+                        ", \"useful\": " + randReview.getVote().getUseful() +
+                        ", \"funny\": " + randReview.getVote().getFunny() + "}" +
+                        ", \"review_id\": " + randReview.getReview_id() +
+                        ", \"text\": " + randReview.getText() +
+                        ", \"stars\": " + randReview.getStars() + "" +
+                        ", \"user_id\": " + randReview.getUser_id() +
+                        ", \"date\": " + randReview.getDate() + "}";
 
+        return jsonString;
+    }
 }
