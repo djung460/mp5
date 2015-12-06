@@ -2,6 +2,7 @@ package ca.ece.ubc.cpen221.mp5.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * Author: Dooj
@@ -47,7 +48,7 @@ public class RestaurantDBClient {
         }
 
         try {
-            return in.readLine();
+            return reply;
         } catch (NumberFormatException nfe) {
             throw new IOException("misformatted reply: " + reply);
         }
@@ -62,5 +63,23 @@ public class RestaurantDBClient {
         in.close();
         out.close();
         socket.close();
+    }
+
+    /**
+     * Use a RestaurantDBServer to handle queries
+     */
+    public static void main(String[] args) {
+        try {
+            RestaurantDBClient client = new RestaurantDBClient("localhost", RestaurantDBServer.RESTURANT_DB_PORT);
+            System.out.println("Enter query below:");
+            Scanner in = new Scanner(System.in);
+            client.sendQuery(in.nextLine());
+            System.out.println("Reply:");
+            String result = client.getReply();
+            System.out.println(result);
+            client.close();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 }

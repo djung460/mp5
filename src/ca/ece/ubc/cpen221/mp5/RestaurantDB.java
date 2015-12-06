@@ -17,12 +17,17 @@ public class RestaurantDB {
     Map<String, List<String>> name_id = new HashMap<>();
     Map<String, Restaurant> id_restaurants = new HashMap<>();
     Map<String, User> id_users = new HashMap<>();
-    //TODO REP INVARIANT
-    //TODO ABSTRACTION FUNCTION
+    //Rep invariant :
+        //name_id, id_restaurants, id_users != null
+        //id_restaurants key maps to unique Restaurant
+        //name_id key maps to atleast one Restaurant with key as its name
+        //id_users key maps to unique User
+    //Abstraction function:
+        //TODO ABSTRACTION FUNCTION
 
     public static void main(String[] args) {
         RestaurantDB restaurantDB = new RestaurantDB("restaurants.json","reviews.json","users.json");
-        System.out.println(restaurantDB.query("getRestaurant(\"WGSy8QlY1vn5lpCNJTOLxA\")"));
+        System.out.println(restaurantDB.query("in(\"UC Campus Area\")"));
     }
 
     /**
@@ -203,7 +208,7 @@ public class RestaurantDB {
                         result = "Review added!";
                         break;
                     case QueryParser.RULE_addUser:
-                        addReview(otherQuery.getQueryInfo());
+                        addUser(otherQuery.getQueryInfo());
                         result = "User added!";
                         break;
                     case QueryParser.RULE_randomReview:
@@ -343,7 +348,7 @@ public class RestaurantDB {
                             ", \"type\": " + restaurant.getType() +
                             ", \"stars\": " + restaurant.getStars() +
                             ", \"city\": " + restaurant.getCity() +
-                            ", \"full_address\": " + restaurant.getFull_address() +
+                            ", \"full_address\": " + restaurant.getFull_address().replace("\n", " ") +
                             ", \"review_count\": " + restaurant.getReview_count() +
                             ", \"photo_url\": " + restaurant.getPhoto_url() +
                             ", \"schools\": " + restaurant.getSchools() +

@@ -115,26 +115,42 @@ public class RestaurantDBServer  {
 
 		try {
 			// each request is a single line containing a query
-			for (String line = in.readLine(); line != null; line = in
-					.readLine()) {
+			for (String line = in.readLine(); line != null; line = in.readLine()) {
 				System.err.println("query: " + line);
 				try {
 					String queryString = line;
 					// compute answer and send back to client
 					String result = restaurantDB.query(queryString);
+
 					System.err.println("reply: " + result);
+
+					out.println(result);
 				} catch (RecognitionException e) {
 					// complain about ill-formatted request
 					System.err.println("reply: error");
-					out.print("err\n");
+					out.print("error\n");
 				}
-				// important! our PrintWriter is auto-flushing, but if it were
-				// not:
-				// out.flush();
 			}
 		} finally {
 			out.close();
 			in.close();
+		}
+	}
+
+	public RestaurantDB getRestaurantDB() {
+		return restaurantDB;
+	}
+
+	/**
+	 * Start a RestaurantDBServer running on the default port.
+	 */
+	public static void main(String[] args) {
+		try {
+			RestaurantDBServer server = new RestaurantDBServer(RESTURANT_DB_PORT, "restaurants.json","reviews.json","users.json");
+		//	ServerQueue queue = new ServerQueue(server);
+			server.serve();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
