@@ -12,7 +12,7 @@ public class OtherQuery implements Query {
 
     public OtherQuery(int queryType, String queryInfo){
         this.queryType = queryType;
-        this.queryInfo = queryInfo.replace("\"","");
+        this.queryInfo = queryInfo.substring(1,queryInfo.length()-1);
     }
 
     public int getQueryType() {

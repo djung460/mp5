@@ -15,7 +15,7 @@ public class Atom implements Query {
 
     public Atom(int atomType, String atomString) {
         this.atomType = atomType;
-        this.atomString = atomString.replace("\"","");
+        this.atomString = atomString.substring(1,atomString.length() - 1);
     }
 
     @Override

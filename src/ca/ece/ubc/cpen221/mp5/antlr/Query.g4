@@ -53,7 +53,7 @@ LPAREN : '(';
 RPAREN : ')';
 OR : '||';
 AND : '&&';
-STRING: '"' ([a-zA-Z0-9]|' ')+ '"';
+STRING: '"' (~[<>]|' ')+ '"';
 IN : 'in';
 CATEGORY : 'category';
 NAME : 'name';
