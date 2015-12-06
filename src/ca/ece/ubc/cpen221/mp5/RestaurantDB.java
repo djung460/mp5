@@ -17,6 +17,7 @@ public class RestaurantDB {
     Map<String, List<String>> name_id = new HashMap<>();
     Map<String, Restaurant> id_restaurants = new HashMap<>();
     Map<String, User> id_users = new HashMap<>();
+
     //Rep invariant :
         //name_id, id_restaurants, id_users != null
         //id_restaurants key maps to unique Restaurant
@@ -24,11 +25,6 @@ public class RestaurantDB {
         //id_users key maps to unique User
     //Abstraction function:
         //TODO ABSTRACTION FUNCTION
-
-    public static void main(String[] args) {
-        RestaurantDB restaurantDB = new RestaurantDB("restaurants.json","reviews.json","users.json");
-        System.out.println(restaurantDB.query("in(\"UC Campus Area\")"));
-    }
 
     /**
      * Create a database from the Yelp dataset given the names of three files:
@@ -183,6 +179,9 @@ public class RestaurantDB {
         return queryHandler.handleQuery();
     }
 
+    /**
+     * Handles all queries given to the database passed from the server
+     */
     private class QueryHandler {
 
         Query query;
@@ -223,8 +222,11 @@ public class RestaurantDB {
                 matchedRestaurants = search();
                 StringBuilder stringBuilder = new StringBuilder("[");
 
+                for(int i = 0 ; i < matchedRestaurants.size(); i++)
                 for(Restaurant r : matchedRestaurants) {
-                    stringBuilder.append(getRestaurant(r.getBusiness_id()) + ", ");
+                    stringBuilder.append(getRestaurant(r.getBusiness_id()));
+                    if(i < matchedRestaurants.size() - 1)
+                        stringBuilder.append(",");
                 }
                 stringBuilder.append("]");
 
@@ -330,11 +332,13 @@ public class RestaurantDB {
          * Gets the restaurant in JSON format for the restaurant that has the provided business identifier
          *
          * @param restaurant_id business identifier to get JSON formatted String
-         * @return a JSON formatted String of the restaurant
+         * @return a JSON formatted String of the restaurant if it exists otherwise returns "Restaurant, not found"
          */
 
         private String getRestaurant(String restaurant_id) {
             Restaurant restaurant = id_restaurants.get(restaurant_id);
+            if(restaurant == null)
+                return "Sorry, restaurant not found";
 
             String jsonString =
                     "{\"open\": " + restaurant.isOpen() +
