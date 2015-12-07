@@ -121,19 +121,19 @@ public class QueryFactory {
 
         @Override
         public void exitAddRestaurant(QueryParser.AddRestaurantContext ctx) {
-            OtherQuery addRestaurant = new OtherQuery(ctx.getRuleIndex(),ctx.STRING().getText());
+            OtherQuery addRestaurant = new OtherQuery(ctx.getRuleIndex(),'{'+ctx.json().getText()+'}');
             stack.push(addRestaurant);
         }
 
         @Override
         public void exitAddUser(QueryParser.AddUserContext ctx) {
-            OtherQuery addUser = new OtherQuery(ctx.getRuleIndex(),ctx.STRING().getText());
+            OtherQuery addUser = new OtherQuery(ctx.getRuleIndex(),'{'+ctx.json().getText()+'}');
             stack.push(addUser);
         }
 
         @Override
         public void exitAddReview(QueryParser.AddReviewContext ctx) {
-            OtherQuery addReview = new OtherQuery(ctx.getRuleIndex(),ctx.STRING().getText());
+            OtherQuery addReview = new OtherQuery(ctx.getRuleIndex(),'{'+ctx.json().getText()+'}');
             stack.push(addReview);
         }
 

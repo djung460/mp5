@@ -21,19 +21,19 @@ grammar Query;
 
 /* Entry point of parser */
 
-randomReview: 'randomReview' LPAREN STRING RPAREN ;
-getRestaurant : 'getRestaurant' LPAREN STRING RPAREN ;
-addRestaurant : 'addRestaurant' LPAREN STRING RPAREN;
-addUser : 'addUser' LPAREN STRING RPAREN;
-addReview : 'addReview' LPAREN STRING RPAREN;
-
 query : orExpr
     | randomReview
     | getRestaurant
     | addRestaurant
     | addUser
-    | randomReview
+    | addReview
     | EOF;
+
+    randomReview: 'randomReview' LPAREN STRING RPAREN ;
+    getRestaurant : 'getRestaurant' LPAREN STRING RPAREN ;
+    addRestaurant : 'addRestaurant' LPAREN json RPAREN;
+    addUser : 'addUser' LPAREN json RPAREN;
+    addReview : 'addReview' LPAREN json RPAREN;
 
 /* Have lowest precedence */
 orExpr : andExpr (OR andExpr)*;
@@ -56,10 +56,13 @@ LPAREN : '(';
 RPAREN : ')';
 OR : '||';
 AND : '&&';
-STRING: '"' ([a-zA-Z0-9]|' ')+ '"';
+STRING: '"' ([a-zA-Z0-9']|' ')+ '"';
 IN : 'in';
 CATEGORY : 'category';
 NAME : 'name';
 RATING : 'rating';
 PRICE : 'price';
-WS : [ \t\r\n]+ -> skip ;
+
+json: JSONSTRING;
+JSONSTRING : '{'(~[<>])*'}';
+WS  :   [ \t\n\r]+ -> skip ;
