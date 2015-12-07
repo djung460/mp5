@@ -49,9 +49,19 @@ public class RestaurantDBTest {
 
     @Test
     public void addUser() throws Exception {
-        restaurantDB.query("addUser(\"{\"url\": \"http://www.yelp.com/user_details?userid=testAdd\", \"votes\": {\"funny\": 3, \"useful\": 17, \"cool\": 4}, \"review_count\": 37, \"type\": \"user\", \"user_id\": \"testAdd\", \"name\": \"Erin C.\", \"average_stars\": 3.83783783783784}\n\")");
-        String expected = "\"addUser(\"{\"url\": \"http://www.yelp.com/user_details?userid=testAdd\", \"votes\": {\"funny\": 3, \"useful\": 17, \"cool\": 4}, \"review_count\": 37, \"type\": \"user\", \"user_id\": \"testAdd\", \"name\": \"Erin C.\", \"average_stars\": 3.83783783783784}\n";
-        String actual = restaurantDB.query("getUser(\"testAdd\")");
+        restaurantDB.query("addUser({\"url\": \"http://www.yelp.com/user_details?userid=testAdd\", \"votes\": {\"funny\": 3, \"useful\": 17, \"cool\": 4}, \"review_count\": 37, \"type\": \"user\", \"user_id\": \"testAdd\", \"name\": \"Erin C.\", \"average_stars\": 3.83783783783784})");
+        String actual = restaurantDB.getId_users().get("testAdd").getName();
+        String expected = "Erin C.";
+
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    public void addRestaurant() throws Exception {
+        restaurantDB.query("addRestaurant({\"open\": true, \"url\": \"http://www.yelp.com/biz/fondue-fred-berkeley\", \"longitude\": -122.25894, \"neighborhoods\": [\"UC Campus Area\"], \"business_id\": \"5\", \"name\": \"Fondue Fred\", \"categories\": [\"Fondue\", \"Restaurants\"], \"state\": \"CA\", \"type\": \"business\", \"stars\": 3.0, \"city\": \"Berkeley\", \"full_address\": \"2556 Telegraph Ave\\nUC Campus Area\\nBerkeley, CA 94704\", \"review_count\": 172, \"photo_url\": \"http://s3-media1.ak.yelpcdn.com/bphoto/07PJUIzisU--faHrNi3vTw/ms.jpg\", \"schools\": [\"University of California at Berkeley\"], \"latitude\": 37.863919, \"price\": 3})");
+        String actual = restaurantDB.query("getRestaurant(\"5\")");
+        String expected = "{\"open\": true, \"url\": \"http://www.yelp.com/biz/fondue-fred-berkeley\", \"longitude\": -122.25894, \"neighborhoods\": [\"UC Campus Area\"], \"business_id\": \"5\", \"name\": \"Fondue Fred\", \"categories\": [\"Fondue\", \"Restaurants\"], \"state\": \"CA\", \"type\": \"business\", \"stars\": 3.0, \"city\": \"Berkeley\", \"full_address\": \"2556 Telegraph Ave\\nUC Campus Area\\nBerkeley, CA 94704\", \"review_count\": 172, \"photo_url\": \"http://s3-media1.ak.yelpcdn.com/bphoto/07PJUIzisU--faHrNi3vTw/ms.jpg\", \"schools\": [\"University of California at Berkeley\"], \"latitude\": 37.863919, \"price\": 3}";
+
         assertEquals(expected,actual);
     }
 }

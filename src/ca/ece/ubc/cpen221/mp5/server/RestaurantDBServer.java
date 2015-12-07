@@ -120,8 +120,8 @@ public class RestaurantDBServer {
                     out.println(result);
                 } catch (Exception e) {
                     // complain about ill-formatted request
-                    System.err.println("reply: error");
-                    out.println("error");
+                        System.err.println("reply: error");
+                        out.println("error: " + e.getLocalizedMessage());
                 }
             }
         } finally {

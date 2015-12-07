@@ -16,6 +16,11 @@ public class RestaurantDB {
 
     Map<String, List<String>> name_id = new HashMap<>();
     Map<String, Restaurant> id_restaurants = new HashMap<>();
+
+    public Map<String, User> getId_users() {
+        return id_users;
+    }
+
     Map<String, User> id_users = new HashMap<>();
 
     //Rep invariant :
