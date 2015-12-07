@@ -69,14 +69,21 @@ public class RestaurantDBClient {
      * Use a RestaurantDBServer to handle queries
      */
     public static void main(String[] args) {
+        boolean closeQuery = false;
         try {
             RestaurantDBClient client = new RestaurantDBClient("localhost", RestaurantDBServer.RESTURANT_DB_PORT);
-            System.out.println("Enter query below:");
-            Scanner in = new Scanner(System.in);
-            client.sendQuery(in.nextLine());
-            System.out.println("Reply:");
-            String result = client.getReply();
-            System.out.println(result);
+            while(!closeQuery) {
+                System.out.println("Enter query below:");
+                Scanner in = new Scanner(System.in);
+                client.sendQuery(in.nextLine());
+                System.out.println("Reply:");
+                String result = client.getReply();
+                System.out.println(result);
+                System.out.println("Close? (Y)");
+                if(in.nextLine().contains("Y/N")){
+                    closeQuery = true;
+                }
+            }
             client.close();
         } catch (IOException ioe) {
             ioe.printStackTrace();
