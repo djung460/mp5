@@ -173,7 +173,7 @@ public class RestaurantDB {
      * @param queryString the query from which the server responds accordingly
      * @return the result of the query
      */
-    public String query(String queryString) {
+    public String query(String queryString) throws Exception{
         QueryHandler queryHandler = new QueryHandler(queryString);
 
         return queryHandler.handleQuery();
@@ -187,7 +187,7 @@ public class RestaurantDB {
         Query query;
 
         //Generates a query from the given query String
-        public QueryHandler(String queryString) {
+        public QueryHandler(String queryString) throws Exception{
             query = QueryFactory.parse(queryString);
         }
 

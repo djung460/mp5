@@ -23,7 +23,7 @@ public class QueryFactory {
     public QueryFactory() {
     }
 
-    public static Query parse(String queryString) {
+    public static Query parse(String queryString) throws Exception {
 
         //Stream of tokens using the lexer
         CharStream input = new ANTLRInputStream(queryString);

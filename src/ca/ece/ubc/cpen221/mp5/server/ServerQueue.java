@@ -38,8 +38,14 @@ class QueryFinder {
                         // block until a request arrives
                         String query = in.take();
                         // compute the answer and send it back
-                        String result = database.query(query);
-                        out.put(new QueryResult(query,result));
+                        try {
+                            String result = database.query(query);
+                            out.put(new QueryResult(query, result));
+                        } catch (Exception e) {
+                            // complain about ill-formatted request
+                            System.err.println("reply: error");
+                            out.put(new QueryResult(query,"error"));
+                        }
                     } catch (InterruptedException ie) {
                         ie.printStackTrace();
                     }
