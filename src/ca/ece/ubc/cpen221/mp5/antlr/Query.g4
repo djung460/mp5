@@ -32,7 +32,7 @@ query : orExpr
 orExpr : andExpr (OR andExpr)*;
 
 /* Have higher precedence */
-andExpr : atom ( AND atom)*;
+andExpr : atom (AND atom)*;
 
 atom : in|category|rating|price|name|LPAREN orExpr RPAREN;
 
@@ -53,7 +53,7 @@ LPAREN : '(';
 RPAREN : ')';
 OR : '||';
 AND : '&&';
-STRING: '"' (~[<>]|' ')+ '"';
+STRING: '"' ([a-zA-Z0-9]|' ')+ '"';
 IN : 'in';
 CATEGORY : 'category';
 NAME : 'name';

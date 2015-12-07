@@ -220,7 +220,7 @@ public class RestaurantDB {
                 }
             } else {
                 matchedRestaurants = search();
-                StringBuilder stringBuilder = new StringBuilder("[");
+                StringBuilder stringBuilder = new StringBuilder();
 
                 for(int i = 0 ; i < matchedRestaurants.size(); i++)
                 for(Restaurant r : matchedRestaurants) {
@@ -228,7 +228,6 @@ public class RestaurantDB {
                     if(i < matchedRestaurants.size() - 1)
                         stringBuilder.append(",");
                 }
-                stringBuilder.append("]");
 
                 result = stringBuilder.toString();
             }
@@ -238,6 +237,7 @@ public class RestaurantDB {
 
         /**
          * Searches the restaurants in the database that match the query.
+         * Requires the query to be valid
          *
          * @return a set of resturants matching the query
          */
@@ -256,6 +256,7 @@ public class RestaurantDB {
 
         /**
          * Adds a new restaurant to the database provided it does not already exist.
+         * Requires the restaurant to have all Restaurant fields
          *
          * @param jsonString a JSON formatted String of a Restaurant
          */
@@ -287,6 +288,7 @@ public class RestaurantDB {
 
         /**
          * Adds a new review to the database in the corresponding restaurant provided it exists.
+         * Requires the review to have all Review fields
          *
          * @param jsonString a JSON formatted String of a Review
          */
@@ -309,6 +311,7 @@ public class RestaurantDB {
 
         /**
          * Adds a new user to the database provided the user does not already exist
+         * Requires the user to have all User fields
          *
          * @param jsonString a JSON formatted String of a User
          */
@@ -342,22 +345,22 @@ public class RestaurantDB {
 
             String jsonString =
                     "{\"open\": " + restaurant.isOpen() +
-                            ", \"url\": " + restaurant.getUrl() +
-                            ", \"longitude\": " + restaurant.getLongitude() +
-                            ", \"neighborhoods\": " + restaurant.getNeighborhoods() +
-                            ", \"business_id\": " + restaurant.getBusiness_id() +
-                            ", \"name\": " + restaurant.getName() +
-                            ", \"categories\": " + restaurant.getCategories() +
-                            ", \"state\": " + restaurant.getState() +
-                            ", \"type\": " + restaurant.getType() +
-                            ", \"stars\": " + restaurant.getStars() +
-                            ", \"city\": " + restaurant.getCity() +
-                            ", \"full_address\": " + restaurant.getFull_address().replace("\n", " ") +
-                            ", \"review_count\": " + restaurant.getReview_count() +
-                            ", \"photo_url\": " + restaurant.getPhoto_url() +
-                            ", \"schools\": " + restaurant.getSchools() +
+                            ", \"url\": \"" + restaurant.getUrl() +
+                            "\", \"longitude\": " + restaurant.getLongitude() +
+                            ", \"neighborhoods\": " + javaListToJSONStringArray(restaurant.getNeighborhoods()) +
+                            ", \"business_id\": \"" + restaurant.getBusiness_id() +
+                            "\", \"name\": \"" + restaurant.getName() +
+                            "\", \"categories\": " + javaListToJSONStringArray(restaurant.getCategories()) +
+                            ", \"state\": \"" + restaurant.getState() +
+                            "\", \"type\": \"" + restaurant.getType() +
+                            "\", \"stars\": " + restaurant.getStars() +
+                            ", \"city\": \"" + restaurant.getCity() +
+                            "\", \"full_address\": \"" + restaurant.getFull_address().replace("\n", "\\n") +
+                            "\", \"review_count\": " + restaurant.getReview_count() +
+                            ", \"photo_url\": \"" + restaurant.getPhoto_url() +
+                            "\", \"schools\": " + javaListToJSONStringArray(restaurant.getSchools()) +
                             ", \"latitude\": " + restaurant.getLatitude() +
-                            ", \"price\": " + restaurant.getPrice() + "}";
+                            ", \"price\": " + restaurant.getPrice() + "}\n";
 
             return jsonString;
         }
@@ -394,6 +397,21 @@ public class RestaurantDB {
                             ", \"date\": " + randReview.getDate() + "}";
 
             return jsonString;
+        }
+
+        private String javaListToJSONStringArray(List<String> strings) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("[");
+            for(int i = 0; i < strings.size(); i ++){
+                stringBuilder.append("\"");
+                stringBuilder.append(strings.get(i));
+                stringBuilder.append("\"");
+                if(i < strings.size() - 1)
+                    stringBuilder.append(", ");
+            }
+            stringBuilder.append("]");
+
+            return stringBuilder.toString();
         }
     }
 }
