@@ -360,7 +360,7 @@ public class RestaurantDB {
                             ", \"photo_url\": \"" + restaurant.getPhoto_url() +
                             "\", \"schools\": " + javaListToJSONStringArray(restaurant.getSchools()) +
                             ", \"latitude\": " + restaurant.getLatitude() +
-                            ", \"price\": " + restaurant.getPrice() + "}\n";
+                            ", \"price\": " + restaurant.getPrice() + "}";
 
             return jsonString;
         }

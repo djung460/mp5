@@ -11,6 +11,36 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface QueryVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link QueryParser#randomReview}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRandomReview(QueryParser.RandomReviewContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QueryParser#getRestaurant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGetRestaurant(QueryParser.GetRestaurantContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QueryParser#addRestaurant}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddRestaurant(QueryParser.AddRestaurantContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QueryParser#addUser}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddUser(QueryParser.AddUserContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link QueryParser#addReview}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAddReview(QueryParser.AddReviewContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link QueryParser#query}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -64,34 +94,4 @@ public interface QueryVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrice(QueryParser.PriceContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QueryParser#randomReview}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRandomReview(QueryParser.RandomReviewContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QueryParser#getRestaurant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGetRestaurant(QueryParser.GetRestaurantContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QueryParser#addRestaurant}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAddRestaurant(QueryParser.AddRestaurantContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QueryParser#addUser}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAddUser(QueryParser.AddUserContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link QueryParser#addReview}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAddReview(QueryParser.AddReviewContext ctx);
 }

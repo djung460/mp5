@@ -8,6 +8,56 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface QueryListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link QueryParser#randomReview}.
+	 * @param ctx the parse tree
+	 */
+	void enterRandomReview(QueryParser.RandomReviewContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QueryParser#randomReview}.
+	 * @param ctx the parse tree
+	 */
+	void exitRandomReview(QueryParser.RandomReviewContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QueryParser#getRestaurant}.
+	 * @param ctx the parse tree
+	 */
+	void enterGetRestaurant(QueryParser.GetRestaurantContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QueryParser#getRestaurant}.
+	 * @param ctx the parse tree
+	 */
+	void exitGetRestaurant(QueryParser.GetRestaurantContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QueryParser#addRestaurant}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddRestaurant(QueryParser.AddRestaurantContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QueryParser#addRestaurant}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddRestaurant(QueryParser.AddRestaurantContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QueryParser#addUser}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddUser(QueryParser.AddUserContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QueryParser#addUser}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddUser(QueryParser.AddUserContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link QueryParser#addReview}.
+	 * @param ctx the parse tree
+	 */
+	void enterAddReview(QueryParser.AddReviewContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link QueryParser#addReview}.
+	 * @param ctx the parse tree
+	 */
+	void exitAddReview(QueryParser.AddReviewContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link QueryParser#query}.
 	 * @param ctx the parse tree
 	 */
@@ -97,54 +147,4 @@ public interface QueryListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrice(QueryParser.PriceContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QueryParser#randomReview}.
-	 * @param ctx the parse tree
-	 */
-	void enterRandomReview(QueryParser.RandomReviewContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QueryParser#randomReview}.
-	 * @param ctx the parse tree
-	 */
-	void exitRandomReview(QueryParser.RandomReviewContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QueryParser#getRestaurant}.
-	 * @param ctx the parse tree
-	 */
-	void enterGetRestaurant(QueryParser.GetRestaurantContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QueryParser#getRestaurant}.
-	 * @param ctx the parse tree
-	 */
-	void exitGetRestaurant(QueryParser.GetRestaurantContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QueryParser#addRestaurant}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddRestaurant(QueryParser.AddRestaurantContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QueryParser#addRestaurant}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddRestaurant(QueryParser.AddRestaurantContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QueryParser#addUser}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddUser(QueryParser.AddUserContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QueryParser#addUser}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddUser(QueryParser.AddUserContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link QueryParser#addReview}.
-	 * @param ctx the parse tree
-	 */
-	void enterAddReview(QueryParser.AddReviewContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link QueryParser#addReview}.
-	 * @param ctx the parse tree
-	 */
-	void exitAddReview(QueryParser.AddReviewContext ctx);
 }
