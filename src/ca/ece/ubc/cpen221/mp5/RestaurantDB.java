@@ -17,10 +17,6 @@ public class RestaurantDB {
     Map<String, List<String>> name_id = new HashMap<>();
     Map<String, Restaurant> id_restaurants = new HashMap<>();
 
-    public Map<String, User> getId_users() {
-        return id_users;
-    }
-
     Map<String, User> id_users = new HashMap<>();
 
     //Rep invariant :
@@ -29,7 +25,10 @@ public class RestaurantDB {
         //name_id key maps to atleast one Restaurant with key as its name
         //id_users key maps to unique User
     //Abstraction function:
-        //TODO ABSTRACTION FUNCTION
+        //AF(r) = a database d, such that
+        //   d.name_id = Map
+        //   d.id_restaurants = Map
+        //   d.id_users = Map
 
     /**
      * Create a database from the Yelp dataset given the names of three files:
@@ -54,7 +53,10 @@ public class RestaurantDB {
     /**
      * Adds restaurants to the database
      *
+     * @requires the files containing json objects to be properly formatted, with one JSONObject per line
      * @param restaurantJSONfilename the filename for the restaurant data
+     * @modifies id_restaurant
+     * @effects puts initial database values of restaurants into a map
      */
     private void setRestaurants(String restaurantJSONfilename) {
         JSONParser parser = new JSONParser();
@@ -97,7 +99,10 @@ public class RestaurantDB {
     /**
      * Adds reviews for the restaurants in the database
      *
+     * @requires the files containing json objects to be properly formatted, with one JSONObject per line
      * @param reviewsJSONfilename the filename for the review data
+     * @modifies id_reviews
+     * @effects puts initial database values of reviews into a map
      */
     private void addReviews(String reviewsJSONfilename) {
         JSONParser parser = new JSONParser();
@@ -129,7 +134,10 @@ public class RestaurantDB {
     /**
      * Sets users for the restaurants in the database
      *
+     * @requires the files containing json objects to be properly formatted, with one JSONObject per line
      * @param usersJSONfilename the filename for the review data
+     * @modifies id_users
+     * @effects puts initial database values of users into a map
      */
     private void setUsers(String usersJSONfilename) {
         JSONParser parser = new JSONParser();
@@ -176,12 +184,18 @@ public class RestaurantDB {
      * Handles queries sent to the server.
      *
      * @param queryString the query from which the server responds accordingly
+     * @requires the queryString to be formatted according to the grammar
      * @return the result of the query
+     * @throws Exception when there is an error with handling the queryString
      */
     public String query(String queryString) throws Exception{
         QueryHandler queryHandler = new QueryHandler(queryString);
 
         return queryHandler.handleQuery();
+    }
+
+    public Map<String, User> getId_users() {
+        return id_users;
     }
 
     /**
@@ -196,6 +210,12 @@ public class RestaurantDB {
             query = QueryFactory.parse(queryString);
         }
 
+        /**
+         * This method handles the queries by identifying the type of query and
+         * calls the appropriate method.
+         *
+         * @return the appropriate reply to the query
+         */
         private String handleQuery() {
             String result = "";
             Set<Restaurant> matchedRestaurants = new HashSet<>();
@@ -242,9 +262,9 @@ public class RestaurantDB {
 
         /**
          * Searches the restaurants in the database that match the query.
-         * Requires the query to be valid
          *
-         * @return a set of resturants matching the query
+         * @requires the query to be valid
+         * @return an unmodifiable set of restaurants matching the query
          */
         private Set<Restaurant> search() {
 
@@ -256,7 +276,7 @@ public class RestaurantDB {
                 if (queryEvaluated)
                     matchedRestaurants.add(r);
             }
-            return matchedRestaurants;
+            return Collections.unmodifiableSet(matchedRestaurants);
         }
 
         /**
@@ -337,16 +357,17 @@ public class RestaurantDB {
         }
 
         /**
-         * Gets the restaurant in JSON format for the restaurant that has the provided business identifier
+         * Gets the restaurant that has the provided business identifier
          *
          * @param restaurant_id business identifier to get JSON formatted String
-         * @return a JSON formatted String of the restaurant if it exists otherwise returns "Restaurant, not found"
+         * @return a JSON formatted String of the restaurant if it exists otherwise returns
+         *              "Restaurant not found"
          */
 
         private String getRestaurant(String restaurant_id) {
             Restaurant restaurant = id_restaurants.get(restaurant_id);
             if(restaurant == null)
-                return "Sorry, restaurant not found";
+                return "Restaurant not found";
 
             String jsonString =
                     "{\"open\": " + restaurant.isOpen() +
@@ -389,17 +410,17 @@ public class RestaurantDB {
             Review randReview = reviews.get(randIndex2);
 
             String jsonString =
-                    "{\"type\": " + randReview.getType() +
-                            ", \"business_id\": " + randReview.getBusiness_id() +
-                            ", \"votes\": " +
+                    "{\"type\": \"" + randReview.getType() +
+                            "\", \"business_id\": \"" + randReview.getBusiness_id() +
+                            "\", \"votes\": " +
                             "{\"cool\": " + randReview.getVote().getCool() +
                             ", \"useful\": " + randReview.getVote().getUseful() +
                             ", \"funny\": " + randReview.getVote().getFunny() + "}" +
-                            ", \"review_id\": " + randReview.getReview_id() +
-                            ", \"text\": " + randReview.getText() +
-                            ", \"stars\": " + randReview.getStars() + "" +
-                            ", \"user_id\": " + randReview.getUser_id() +
-                            ", \"date\": " + randReview.getDate() + "}";
+                            ", \"review_id\": \"" + randReview.getReview_id() +
+                            "\", \"text\": \"" + randReview.getText().replace("\n","\\n") +
+                            "\", \"stars\": " + randReview.getStars() +
+                            ", \"user_id\": \"" + randReview.getUser_id() +
+                            "\", \"date\": \"" + randReview.getDate() + "\"}";
 
             return jsonString;
         }
