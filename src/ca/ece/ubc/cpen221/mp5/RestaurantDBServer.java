@@ -1,9 +1,7 @@
-package ca.ece.ubc.cpen221.mp5.server;
+package ca.ece.ubc.cpen221.mp5;
 
 // TODO: Implement a server that will instantiate a database, 
 // process queries concurrently, etc.
-
-import ca.ece.ubc.cpen221.mp5.RestaurantDB;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -139,7 +137,7 @@ public class RestaurantDBServer {
      */
     public static void main(String[] args) {
         try {
-            RestaurantDBServer server = new RestaurantDBServer(RESTURANT_DB_PORT, "restaurants.json", "reviews.json", "users.json");
+            RestaurantDBServer server = new RestaurantDBServer(Integer.parseInt(args[0]), args[1], args[2], args[3]);
             //	ServerQueue queue = new ServerQueue(server);
             server.serve();
         } catch (IOException e) {
