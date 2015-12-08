@@ -16,7 +16,6 @@ public class RestaurantDB {
 
     Map<String, List<String>> name_id = new HashMap<>();
     Map<String, Restaurant> id_restaurants = new HashMap<>();
-
     Map<String, User> id_users = new HashMap<>();
 
     //Rep invariant :
@@ -405,7 +404,7 @@ public class RestaurantDB {
             int randIndex1 = random_id.nextInt(restaurant_ids.size());
             String id = restaurant_ids.get(randIndex1);
 
-            List<Review> reviews = id_restaurants.get(id).getReviews();
+            List<Review> reviews = id_restaurants.get(id).getReview();
             int randIndex2 = random_id.nextInt(reviews.size());
             Review randReview = reviews.get(randIndex2);
 
